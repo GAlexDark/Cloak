@@ -13,7 +13,7 @@ client:
 
 server: 
 	mkdir -p build
-	go build -ldflags "-X main.version=${version}" ./cmd/ck-server
+	go build -ldflags "-w -s -X main.version=${version}" ./cmd/ck-server
 	mv ck-server* ./build
 
 install:
