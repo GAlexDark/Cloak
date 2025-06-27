@@ -74,7 +74,8 @@ func main() {
 	var pluginMode bool
 
 	log.SetFormatter(&log.TextFormatter{
-		FullTimestamp: true,
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02T15:04:05.000Z07:00",
 	})
 
 	if os.Getenv("SS_LOCAL_HOST") != "" && os.Getenv("SS_LOCAL_PORT") != "" {
