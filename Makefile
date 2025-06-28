@@ -8,12 +8,12 @@ version=$(shell ver=$$(git log -n 1 --pretty=oneline --format=%D | awk -F, '{pri
 
 client: 
 	mkdir -p build
-	go build -ldflags "-w -s -X main.version=${version}" ./cmd/ck-client 
+	GOOS=linux GOARCH=amd64 go build -ldflags "-w -s -X main.version=${version}" ./cmd/ck-client 
 	mv ck-client* ./build
 
 server: 
 	mkdir -p build
-	go build -ldflags "-w -s -X main.version=${version}" ./cmd/ck-server
+	GOOS=linux GOARCH=amd64 go build -ldflags "-w -s -X main.version=${version}" ./cmd/ck-server
 	mv ck-server* ./build
 
 install:
