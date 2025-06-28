@@ -27,15 +27,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Ensure tag is from main
+      - name: Ensure tag is from master
         run: |
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          echo "Current branch: $BRANCH_NAME"
-          if [[ "$BRANCH_NAME" != "master" ]]; then
-            echo "❌ Tag not from main branch. Aborting."
+          git fetch origin master --depth=1
+          MASTER_SHA=$(git rev-parse origin/master)
+          if [[ "$GITHUB_SHA" != "$MASTER_SHA" ]]; then
+            echo "❌ Текущий тег не указывает на последний коммит master"
             exit 1
           fi
-
+          echo "Тег совпадает с последним коммитом master"
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
