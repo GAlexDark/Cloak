@@ -3,10 +3,10 @@ name: Build & Release
 on:
   push:
     tags:
-      - 'v*' # Срабатывает только при пуше тега, например v1.0.0 - git tag v1.0.0 && git push --tags`
+      - 'v*' # Срабатывает только при пуше тега, например v1.0.0 -> git tag v1.0.0 && git push --tags`
 
     branches:
-      - 'main' #Ограничить выполнение только если тег пушится из ветки main
+      - 'master' #Ограничить выполнение только если тег пушится из ветки main
 
   # Также можно разрешить ручной запуск с выбором ветки:
   # workflow_dispatch:
@@ -14,7 +14,7 @@ on:
   #     branch:
   #       description: 'Target branch'
   #       required: true
-  #       default: 'main'
+  #       default: 'master'
 
 permissions:
   contents: write # нужно для публикации релиза
@@ -30,7 +30,7 @@ jobs:
       - name: Ensure tag is from main
         run: |
           BRANCH_NAME=$(git name-rev --name-only $GITHUB_SHA)
-          if [[ "$BRANCH_NAME" != "main" ]]; then
+          if [[ "$BRANCH_NAME" != "master" ]]; then
             echo "❌ Tag not from main branch. Aborting."
             exit 1
           fi
