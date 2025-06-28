@@ -51,6 +51,6 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/your-project-linux-amd64.tar.gz
+          files: build/cloak-project-linux-amd64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.CLOAK_GITHUB_TOKEN }}
