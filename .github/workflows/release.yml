@@ -1,0 +1,56 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Срабатывает только при пуше тега, например v1.0.0 - git tag v1.0.0 && git push --tags`
+
+    branches:
+      - 'main' #Ограничить выполнение только если тег пушится из ветки main
+
+  # Также можно разрешить ручной запуск с выбором ветки:
+  # workflow_dispatch:
+  #   inputs:
+  #     branch:
+  #       description: 'Target branch'
+  #       required: true
+  #       default: 'main'
+
+permissions:
+  contents: write # нужно для публикации релиза
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure tag is from main
+        run: |
+          BRANCH_NAME=$(git name-rev --name-only $GITHUB_SHA)
+          if [[ "$BRANCH_NAME" != "main" ]]; then
+            echo "❌ Tag not from main branch. Aborting."
+            exit 1
+          fi
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.0'
+
+      - name: Build binary
+        run: make
+
+      - name: Archive binary
+        run: |
+          cd /build
+          tar -czf cloak-linux-amd64.tar.gz ck-*
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/your-project-linux-amd64.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLOAK_GITHUB_TOKEN }}
