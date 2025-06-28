@@ -45,7 +45,7 @@ jobs:
 
       - name: Archive binary
         run: |
-          cd /build
+          cd build
           tar -czf cloak-linux-amd64.tar.gz ck-*
 
       - name: Create GitHub Release
