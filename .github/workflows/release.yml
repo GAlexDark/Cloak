@@ -30,6 +30,7 @@ jobs:
       - name: Ensure tag is from main
         run: |
           BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          echo "Current branch: $BRANCH_NAME"
           if [[ "$BRANCH_NAME" != "master" ]]; then
             echo "❌ Tag not from main branch. Aborting."
             exit 1
