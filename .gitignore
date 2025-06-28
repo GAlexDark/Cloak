@@ -4,3 +4,6 @@ crashers/
 *.zip
 .idea/
 build/
+.env
+*.code-workspace
+old/
