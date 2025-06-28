@@ -5,8 +5,8 @@ on:
     tags:
       - 'v*' # Срабатывает только при пуше тега, например v1.0.0 -> git tag v1.0.0 && git push --tags`
 
-    branches:
-      - 'master' #Ограничить выполнение только если тег пушится из ветки main
+#    branches:
+#      - 'master' #Ограничить выполнение только если тег пушится из ветки main
 
   # Также можно разрешить ручной запуск с выбором ветки:
   # workflow_dispatch:
@@ -51,6 +51,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.inputs.tag }}
           files: build/cloak-project-linux-amd64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.CLOAK_GITHUB_TOKEN }}
